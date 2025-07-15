@@ -306,10 +306,12 @@ function handleFileUpload(input, preview, folder = 'products') {
 function createImagePreviewItem(thumbnail, original) {
     const item = document.createElement('div');
     item.className = 'image-preview-item';
-    
+
     const img = document.createElement('img');
-    img.src = thumbnail;
+    const thumbSrc = thumbnail.startsWith('http') ? thumbnail : '../' + thumbnail.replace(/^\/+/, '');
+    img.src = thumbSrc;
     img.alt = 'Preview';
+    img.dataset.original = original;
     
     const removeBtn = document.createElement('button');
     removeBtn.className = 'remove-btn';
@@ -328,7 +330,7 @@ function createImagePreviewItem(thumbnail, original) {
 function updateImagesJson() {
     const previews = document.querySelectorAll('.image-preview');
     previews.forEach(preview => {
-        const images = Array.from(preview.querySelectorAll('img')).map(img => img.src);
+        const images = Array.from(preview.querySelectorAll('img')).map(img => img.dataset.original || img.src.replace(/^\.\.\//, ''));
         const hiddenInput = preview.parentElement.querySelector('[id$="ImagesJson"]');
         if (hiddenInput) {
             hiddenInput.value = JSON.stringify(images);

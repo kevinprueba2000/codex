@@ -31,7 +31,7 @@ try {
             $price = (float)($_POST['price'] ?? 0);
             $category_id = (int)($_POST['category_id'] ?? 0);
             $stock = (int)($_POST['stock'] ?? 0);
-            $featured = isset($_POST['featured']) ? 1 : 0;
+            $featured = isset($_POST['featured']) ? (int)$_POST['featured'] : 0;
             $discount_percentage = (float)($_POST['discount_percentage'] ?? 0);
             $images_json = $_POST['images_json'] ?? '[]';
             
@@ -101,7 +101,7 @@ try {
             $price = (float)($_POST['price'] ?? 0);
             $category_id = (int)($_POST['category_id'] ?? 0);
             $stock = (int)($_POST['stock'] ?? 0);
-            $featured = isset($_POST['featured']) ? 1 : 0;
+            $featured = isset($_POST['featured']) ? (int)$_POST['featured'] : 0;
             $discount_percentage = (float)($_POST['discount_percentage'] ?? 0);
             $images_json = $_POST['images_json'] ?? '[]';
             
