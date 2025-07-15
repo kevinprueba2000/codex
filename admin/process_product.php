@@ -114,6 +114,11 @@ try {
             if ($productId <= 0) {
                 throw new Exception('ID de producto inválido');
             }
+
+            $existing = $product->getProductById($productId);
+            if (!$existing) {
+                throw new Exception('Producto no encontrado');
+            }
             
             if (empty($name) || empty($description)) {
                 throw new Exception('Nombre y descripción son obligatorios');

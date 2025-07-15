@@ -195,14 +195,32 @@ $settings = [
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="mb-3">
-                                                        <label class="form-label">Logo URL</label>
-                                                        <input type="url" class="form-control" name="logo_url" value="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80">
+                                                        <label class="form-label">Logo</label>
+                                                        <input type="text" class="form-control mb-2" name="logo_url" id="logoUrl" value="<?php echo $settings['logo_url']; ?>" placeholder="URL o subir imagen">
+                                                        <div class="upload-area" data-folder="settings">
+                                                            <div class="upload-placeholder">
+                                                                <i class="fas fa-cloud-upload-alt fa-2x text-muted mb-2"></i>
+                                                                <p class="text-muted small">Selecciona una imagen</p>
+                                                            </div>
+                                                            <input type="file" name="logo_file" accept="image/*" style="display:none;">
+                                                        </div>
+                                                        <div id="logoImagePreview" class="image-preview mt-2"></div>
+                                                        <input type="hidden" id="logoImagesJson">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="mb-3">
-                                                        <label class="form-label">Favicon URL</label>
-                                                        <input type="url" class="form-control" name="favicon_url" value="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=32&q=80">
+                                                        <label class="form-label">Favicon</label>
+                                                        <input type="text" class="form-control mb-2" name="favicon_url" id="faviconUrl" value="<?php echo $settings['favicon_url']; ?>" placeholder="URL o subir imagen">
+                                                        <div class="upload-area" data-folder="settings">
+                                                            <div class="upload-placeholder">
+                                                                <i class="fas fa-cloud-upload-alt fa-2x text-muted mb-2"></i>
+                                                                <p class="text-muted small">Selecciona una imagen</p>
+                                                            </div>
+                                                            <input type="file" name="favicon_file" accept="image/*" style="display:none;">
+                                                        </div>
+                                                        <div id="faviconImagePreview" class="image-preview mt-2"></div>
+                                                        <input type="hidden" id="faviconImagesJson">
                                                     </div>
                                                 </div>
                                             </div>

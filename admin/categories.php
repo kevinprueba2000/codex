@@ -231,7 +231,7 @@ $editCategoryId = isset($_GET['edit']) ? intval($_GET['edit']) : 0;
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Imagen</label>
-                            <div class="upload-area">
+                            <div class="upload-area" data-folder="categories">
                                 <div class="upload-placeholder">
                                     <i class="fas fa-cloud-upload-alt fa-2x text-muted mb-2"></i>
                                     <p class="text-muted small">Selecciona una imagen</p>
@@ -276,7 +276,7 @@ $editCategoryId = isset($_GET['edit']) ? intval($_GET['edit']) : 0;
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Imagen</label>
-                            <div class="upload-area">
+                            <div class="upload-area" data-folder="categories">
                                 <div class="upload-placeholder">
                                     <i class="fas fa-cloud-upload-alt fa-2x text-muted mb-2"></i>
                                     <p class="text-muted small">Selecciona una imagen</p>
