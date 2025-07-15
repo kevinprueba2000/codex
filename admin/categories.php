@@ -163,8 +163,9 @@ $editCategoryId = isset($_GET['edit']) ? intval($_GET['edit']) : 0;
                                             <td><?php echo $cat['id']; ?></td>
                                             <td>
                                                 <?php if ($cat['image']): ?>
-                                                    <img src="<?php echo $cat['image']; ?>" 
-                                                         alt="<?php echo htmlspecialchars($cat['name']); ?>" 
+                                                    <?php $imgPath = strpos($cat['image'], 'http') === 0 ? $cat['image'] : '../' . ltrim($cat['image'], '/'); ?>
+                                                    <img src="<?php echo $imgPath; ?>"
+                                                         alt="<?php echo htmlspecialchars($cat['name']); ?>"
                                                          class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">
                                                 <?php else: ?>
                                                     <div class="bg-secondary text-white rounded d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">

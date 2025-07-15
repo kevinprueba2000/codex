@@ -175,8 +175,9 @@ $editProductId = isset($_GET['edit']) ? intval($_GET['edit']) : 0;
                                                     }
                                                 }
                                                 ?>
-                                                <img src="<?php echo htmlspecialchars($imageUrl); ?>" 
-                                                     alt="<?php echo htmlspecialchars($prod['name']); ?>" 
+                                                <?php $imgUrl = strpos($imageUrl, 'http') === 0 ? $imageUrl : '../' . ltrim($imageUrl, '/'); ?>
+                                                <img src="<?php echo htmlspecialchars($imgUrl); ?>"
+                                                     alt="<?php echo htmlspecialchars($prod['name']); ?>"
                                                      class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">
                                             </td>
                                             <td>

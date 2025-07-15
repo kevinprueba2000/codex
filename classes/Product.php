@@ -243,6 +243,25 @@ class Product {
             return false;
         }
     }
+
+    // Alternar estado destacado
+    public function toggleFeatured($id) {
+        try {
+            $product = $this->getProductById($id);
+            if (!$product) return false;
+
+            $newStatus = $product['is_featured'] == 1 ? 0 : 1;
+            $stmt = $this->db->prepare("UPDATE products SET is_featured = ? WHERE id = ?");
+
+            if ($stmt->execute([$newStatus, $id])) {
+                return $newStatus === 1;
+            }
+
+            return false;
+        } catch(PDOException $e) {
+            return false;
+        }
+    }
     
     // Obtener productos relacionados
     public function getRelatedProducts($categoryId, $excludeId, $limit = 4) {
