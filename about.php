@@ -1,5 +1,15 @@
 <?php
 require_once 'config/config.php';
+
+$teamFile = __DIR__ . '/data/team.json';
+$teamMembers = [];
+if (file_exists($teamFile)) {
+    $json = file_get_contents($teamFile);
+    $data = json_decode($json, true);
+    if (is_array($data)) {
+        $teamMembers = $data;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -253,48 +263,20 @@ require_once 'config/config.php';
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="card text-center border-0 shadow-lg">
-                        <div class="card-body p-4">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
-                                 alt="CEO" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
-                            <h5 class="card-title">Carlos Mendoza</h5>
-                            <p class="text-muted">CEO & Fundador</p>
-                            <p class="card-text">
-                                Visionario tecnológico con más de 10 años de experiencia 
-                                en desarrollo de software y emprendimiento.
-                            </p>
+                <?php foreach ($teamMembers as $idx => $member): ?>
+                    <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="<?php echo ($idx + 1) * 100; ?>">
+                        <div class="card text-center border-0 shadow-lg">
+                            <div class="card-body p-4">
+                                <img src="<?php echo htmlspecialchars($member['image']); ?>"
+                                     alt="<?php echo htmlspecialchars($member['role']); ?>" class="rounded-circle mb-3"
+                                     style="width: 120px; height: 120px; object-fit: cover;">
+                                <h5 class="card-title"><?php echo htmlspecialchars($member['name']); ?></h5>
+                                <p class="text-muted"><?php echo htmlspecialchars($member['role']); ?></p>
+                                <p class="card-text"><?php echo htmlspecialchars($member['description']); ?></p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="card text-center border-0 shadow-lg">
-                        <div class="card-body p-4">
-                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
-                                 alt="CTO" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
-                            <h5 class="card-title">Ana Rodríguez</h5>
-                            <p class="text-muted">CTO & Desarrolladora</p>
-                            <p class="card-text">
-                                Experta en tecnologías emergentes y desarrollo de 
-                                aplicaciones web y móviles innovadoras.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
-                    <div class="card text-center border-0 shadow-lg">
-                        <div class="card-body p-4">
-                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
-                                 alt="CMO" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
-                            <h5 class="card-title">Luis Torres</h5>
-                            <p class="text-muted">CMO & Especialista en Productos</p>
-                            <p class="card-text">
-                                Experto en marketing digital y productos naturales 
-                                con amplia experiencia en el mercado latinoamericano.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>

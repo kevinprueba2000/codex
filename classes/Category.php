@@ -111,6 +111,34 @@ class Category {
             return false;
         }
     }
+
+    // Obtener categoría por nombre
+    public function getCategoryByName($name) {
+        try {
+            $sql = "SELECT * FROM categories WHERE name = ? LIMIT 1";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$name]);
+            return $stmt->fetch();
+        } catch(PDOException $e) {
+            return false;
+        }
+    }
+
+    // Alternar estado activo/inactivo
+    public function toggleActive($id) {
+        try {
+            $cat = $this->getCategoryById($id);
+            if (!$cat) return false;
+            $newStatus = $cat['status'] === 'active' ? 'inactive' : 'active';
+            $stmt = $this->db->prepare("UPDATE categories SET status = ? WHERE id = ?");
+            if ($stmt->execute([$newStatus, $id])) {
+                return $newStatus === 'active';
+            }
+            return false;
+        } catch(PDOException $e) {
+            return false;
+        }
+    }
     
     // Obtener categorías con conteo de productos
     public function getCategoriesWithProductCount() {

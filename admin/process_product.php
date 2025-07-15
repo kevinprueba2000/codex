@@ -67,12 +67,6 @@ try {
                 throw new Exception('Categoría no válida');
             }
 
-            // Obtener producto existente para conservar el SKU
-            $existing = $product->getProductById($productId);
-            if (!$existing) {
-                throw new Exception('Producto no encontrado');
-            }
-
             $productData = [
                 'name' => $name,
                 'description' => $description,

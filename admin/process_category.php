@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../classes/Category.php';
+require_once __DIR__ . '/../classes/Product.php';
 
 // Verificar si es administrador
 if (!isLoggedIn() || !isAdmin()) {
@@ -17,6 +18,7 @@ if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
 }
 
 $category = new Category();
+$product = new Product();
 $response = ['success' => false, 'message' => ''];
 
 try {
@@ -26,8 +28,11 @@ try {
         case 'create':
             $name = cleanInput($_POST['name'] ?? '');
             $description = cleanInput($_POST['description'] ?? '');
-            $image_url = cleanInput($_POST['image_url'] ?? '');
-            $active = isset($_POST['active']) ? 1 : 0;
+            $slug = generateSlug($name);
+            $image_json = $_POST['image_json'] ?? '[]';
+            $images = json_decode($image_json, true);
+            if (json_last_error() !== JSON_ERROR_NONE) { $images = []; }
+            $image = isset($images[0]) ? $images[0] : null;
             
             // Validaciones
             if (empty($name)) {
@@ -42,8 +47,18 @@ try {
             if ($category->getCategoryByName($name)) {
                 throw new Exception('Ya existe una categoría con ese nombre');
             }
-            
-            $categoryId = $category->createCategory($name, $description, $image_url, $active);
+            if ($category->slugExists($slug)) {
+                throw new Exception('El slug ya está en uso');
+            }
+
+            $catData = [
+                'name' => $name,
+                'description' => $description,
+                'image' => $image,
+                'slug' => $slug
+            ];
+
+            $categoryId = $category->createCategory($catData);
             
             if ($categoryId) {
                 $response = [
@@ -60,8 +75,11 @@ try {
             $categoryId = (int)($_POST['id'] ?? 0);
             $name = cleanInput($_POST['name'] ?? '');
             $description = cleanInput($_POST['description'] ?? '');
-            $image_url = cleanInput($_POST['image_url'] ?? '');
-            $active = isset($_POST['active']) ? 1 : 0;
+            $slug = cleanInput($_POST['slug'] ?? generateSlug($name));
+            $image_json = $_POST['image_json'] ?? '[]';
+            $images = json_decode($image_json, true);
+            if (json_last_error() !== JSON_ERROR_NONE) { $images = []; }
+            $image = isset($images[0]) ? $images[0] : null;
             
             if ($categoryId <= 0) {
                 throw new Exception('ID de categoría inválido');
@@ -80,8 +98,18 @@ try {
             if ($existingCategory && $existingCategory['id'] != $categoryId) {
                 throw new Exception('Ya existe otra categoría con ese nombre');
             }
-            
-            $result = $category->updateCategory($categoryId, $name, $description, $image_url, $active);
+            if ($category->slugExists($slug, $categoryId)) {
+                throw new Exception('El slug ya está en uso');
+            }
+
+            $catData = [
+                'name' => $name,
+                'description' => $description,
+                'image' => $image,
+                'slug' => $slug
+            ];
+
+            $result = $category->updateCategory($categoryId, $catData);
             
             if ($result) {
                 $response = [
@@ -101,7 +129,7 @@ try {
             }
             
             // Verificar si hay productos en esta categoría
-            $productCount = $category->getProductCountByCategory($categoryId);
+            $productCount = $product->getProductCountByCategory($categoryId);
             if ($productCount > 0) {
                 throw new Exception("No se puede eliminar la categoría porque tiene $productCount productos asociados");
             }

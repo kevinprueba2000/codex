@@ -74,6 +74,12 @@ $editCategoryId = isset($_GET['edit']) ? intval($_GET['edit']) : 0;
                     </a>
                 </li>
                 <li>
+                    <a href="team.php">
+                        <i class="fas fa-users-cog"></i>
+                        Equipo
+                    </a>
+                </li>
+                <li>
                     <a href="settings.php">
                         <i class="fas fa-cog"></i>
                         Configuración
@@ -224,8 +230,16 @@ $editCategoryId = isset($_GET['edit']) ? intval($_GET['edit']) : 0;
                             <small class="text-muted">URL amigable (ej: software-personalizado)</small>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">URL de Imagen</label>
-                            <input type="url" class="form-control" name="image" placeholder="https://ejemplo.com/imagen.jpg">
+                            <label class="form-label">Imagen</label>
+                            <div class="upload-area">
+                                <div class="upload-placeholder">
+                                    <i class="fas fa-cloud-upload-alt fa-2x text-muted mb-2"></i>
+                                    <p class="text-muted small">Selecciona una imagen</p>
+                                </div>
+                                <input type="file" name="images[]" accept="image/*" style="display:none;">
+                            </div>
+                            <div id="categoryImagePreview" class="image-preview mt-2"></div>
+                            <input type="hidden" name="image_json" id="categoryImagesJson">
                         </div>
                     </form>
                 </div>
@@ -261,8 +275,16 @@ $editCategoryId = isset($_GET['edit']) ? intval($_GET['edit']) : 0;
                             <input type="text" class="form-control" name="slug" id="editCategorySlug" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">URL de Imagen</label>
-                            <input type="url" class="form-control" name="image" id="editCategoryImage">
+                            <label class="form-label">Imagen</label>
+                            <div class="upload-area">
+                                <div class="upload-placeholder">
+                                    <i class="fas fa-cloud-upload-alt fa-2x text-muted mb-2"></i>
+                                    <p class="text-muted small">Selecciona una imagen</p>
+                                </div>
+                                <input type="file" name="images[]" accept="image/*" style="display:none;">
+                            </div>
+                            <div id="editCategoryImagePreview" class="image-preview mt-2"></div>
+                            <input type="hidden" name="image_json" id="editCategoryImagesJson">
                         </div>
                     </form>
                 </div>
@@ -280,40 +302,110 @@ $editCategoryId = isset($_GET['edit']) ? intval($_GET['edit']) : 0;
     
     <script>
         // Category management functions
+        const csrfToken = '<?php echo generateCSRFToken(); ?>';
+
         function editCategory(categoryId) {
-            // Simulate loading category data
-            document.getElementById('editCategoryId').value = categoryId;
-            document.getElementById('editCategoryName').value = 'Categoría ' + categoryId;
-            document.getElementById('editCategoryDescription').value = 'Descripción de la categoría ' + categoryId;
-            document.getElementById('editCategorySlug').value = 'categoria-' + categoryId;
-            document.getElementById('editCategoryImage').value = 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80';
-            
-            const modal = new bootstrap.Modal(document.getElementById('editCategoryModal'));
-            modal.show();
+            const formData = new FormData();
+            formData.append('action', 'get_category');
+            formData.append('id', categoryId);
+            formData.append('csrf_token', csrfToken);
+
+            fetch('process_category.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    const cat = data.category;
+                    document.getElementById('editCategoryId').value = cat.id;
+                    document.getElementById('editCategoryName').value = cat.name;
+                    document.getElementById('editCategoryDescription').value = cat.description || '';
+                    document.getElementById('editCategorySlug').value = cat.slug;
+
+                    if (cat.image) {
+                        const preview = document.getElementById('editCategoryImagePreview');
+                        preview.innerHTML = '';
+                        const item = document.createElement('div');
+                        item.className = 'image-preview-item';
+                        const img = document.createElement('img');
+                        img.src = cat.image;
+                        item.appendChild(img);
+                        preview.appendChild(item);
+                        document.getElementById('editCategoryImagesJson').value = JSON.stringify([cat.image]);
+                    }
+
+                    const modal = new bootstrap.Modal(document.getElementById('editCategoryModal'));
+                    modal.show();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(() => alert('Error al cargar la categoría'));
         }
-        
+
         function saveCategory() {
-            // Simulate saving category
-            alert('Categoría guardada correctamente');
-            const modal = bootstrap.Modal.getInstance(document.getElementById('addCategoryModal'));
-            modal.hide();
-            document.getElementById('addCategoryForm').reset();
-            location.reload();
+            const form = document.getElementById('addCategoryForm');
+            const formData = new FormData(form);
+            formData.append('action', 'create');
+            formData.append('csrf_token', csrfToken);
+
+            fetch('process_category.php', { method: 'POST', body: formData })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('addCategoryModal'));
+                    modal.hide();
+                    form.reset();
+                    document.getElementById('categoryImagePreview').innerHTML = '';
+                    location.reload();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(() => alert('Error al guardar la categoría'));
         }
-        
+
         function updateCategory() {
-            // Simulate updating category
-            alert('Categoría actualizada correctamente');
-            const modal = bootstrap.Modal.getInstance(document.getElementById('editCategoryModal'));
-            modal.hide();
-            location.reload();
+            const form = document.getElementById('editCategoryForm');
+            const formData = new FormData(form);
+            formData.append('action', 'update');
+            formData.append('csrf_token', csrfToken);
+
+            fetch('process_category.php', { method: 'POST', body: formData })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('editCategoryModal'));
+                    modal.hide();
+                    location.reload();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(() => alert('Error al actualizar la categoría'));
         }
-        
+
         function deleteCategory(categoryId) {
             if (confirm('¿Estás seguro de que quieres eliminar esta categoría?')) {
-                // Simulate deleting category
-                alert('Categoría eliminada correctamente');
-                location.reload();
+                const formData = new FormData();
+                formData.append('action', 'delete');
+                formData.append('id', categoryId);
+                formData.append('csrf_token', csrfToken);
+
+                fetch('process_category.php', { method: 'POST', body: formData })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        location.reload();
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(() => alert('Error al eliminar la categoría'));
             }
         }
 
