@@ -18,6 +18,8 @@ $settings = [
     'facebook_url' => 'https://facebook.com/alquimiatechnologic',
     'instagram_url' => 'https://instagram.com/alquimiatechnologic',
     'whatsapp_url' => 'https://wa.me/593983015307',
+    'logo_url' => '',
+    'favicon_url' => '',
     'maintenance_mode' => false,
     'allow_registration' => true,
     'email_notifications' => true
@@ -200,7 +202,8 @@ $settings = [
                                                         <div class="upload-area" data-folder="settings">
                                                             <div class="upload-placeholder">
                                                                 <i class="fas fa-cloud-upload-alt fa-2x text-muted mb-2"></i>
-                                                                <p class="text-muted small">Selecciona una imagen</p>
+                                                                <p class="text-muted">Arrastra imágenes aquí o haz clic para seleccionar</p>
+                                                                <p class="text-muted small">Formatos: JPG, PNG, GIF, WEBP (máx. 5MB cada una)</p>
                                                             </div>
                                                             <input type="file" name="logo_file" accept="image/*" style="display:none;">
                                                         </div>
@@ -215,7 +218,8 @@ $settings = [
                                                         <div class="upload-area" data-folder="settings">
                                                             <div class="upload-placeholder">
                                                                 <i class="fas fa-cloud-upload-alt fa-2x text-muted mb-2"></i>
-                                                                <p class="text-muted small">Selecciona una imagen</p>
+                                                                <p class="text-muted">Arrastra imágenes aquí o haz clic para seleccionar</p>
+                                                                <p class="text-muted small">Formatos: JPG, PNG, GIF, WEBP (máx. 5MB cada una)</p>
                                                             </div>
                                                             <input type="file" name="favicon_file" accept="image/*" style="display:none;">
                                                         </div>
@@ -449,6 +453,7 @@ $settings = [
     <script src="../assets/js/admin.js"></script>
     
     <script>
+        const csrfToken = '<?php echo generateCSRFToken(); ?>';
         // Settings management functions
         function saveSettings() {
             // Collect all form data
