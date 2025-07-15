@@ -282,7 +282,7 @@ $editProductId = isset($_GET['edit']) ? intval($_GET['edit']) : 0;
                                             <p class="text-muted">Arrastra imágenes aquí o haz clic para seleccionar</p>
                                             <p class="text-muted small">Formatos: JPG, PNG, GIF, WEBP (máx. 5MB cada una)</p>
                                         </div>
-                                        <input type="file" id="imageUpload" name="images[]" multiple accept="image/*" style="display: none;">
+                                        <input type="file" id="imageUpload" name="images[]" multiple accept="image/*" class="form-control mt-2">
                                     </div>
                                     <div id="imagePreview" class="mt-3"></div>
                                     <input type="hidden" name="images_json" id="imagesJson">
@@ -359,7 +359,7 @@ $editProductId = isset($_GET['edit']) ? intval($_GET['edit']) : 0;
                                             <p class="text-muted">Arrastra imágenes aquí o haz clic para seleccionar</p>
                                             <p class="text-muted small">Formatos: JPG, PNG, GIF, WEBP (máx. 5MB cada una)</p>
                                         </div>
-                                        <input type="file" id="editImageUpload" name="images[]" multiple accept="image/*" style="display: none;">
+                                        <input type="file" id="editImageUpload" name="images[]" multiple accept="image/*" class="form-control mt-2">
                                     </div>
                                     <div id="editImagePreview" class="mt-3"></div>
                                     <input type="hidden" name="images_json" id="editImagesJson">

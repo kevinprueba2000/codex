@@ -236,7 +236,7 @@ $editCategoryId = isset($_GET['edit']) ? intval($_GET['edit']) : 0;
                                     <i class="fas fa-cloud-upload-alt fa-2x text-muted mb-2"></i>
                                     <p class="text-muted small">Selecciona una imagen</p>
                                 </div>
-                                <input type="file" name="images[]" accept="image/*" style="display:none;">
+                                <input type="file" id="categoryImageUpload" name="images[]" accept="image/*" class="form-control mt-2">
                             </div>
                             <div id="categoryImagePreview" class="image-preview mt-2"></div>
                             <input type="hidden" name="image_json" id="categoryImagesJson">
@@ -281,7 +281,7 @@ $editCategoryId = isset($_GET['edit']) ? intval($_GET['edit']) : 0;
                                     <i class="fas fa-cloud-upload-alt fa-2x text-muted mb-2"></i>
                                     <p class="text-muted small">Selecciona una imagen</p>
                                 </div>
-                                <input type="file" name="images[]" accept="image/*" style="display:none;">
+                                <input type="file" id="editCategoryImageUpload" name="images[]" accept="image/*" class="form-control mt-2">
                             </div>
                             <div id="editCategoryImagePreview" class="image-preview mt-2"></div>
                             <input type="hidden" name="image_json" id="editCategoryImagesJson">
