@@ -11,6 +11,8 @@ $category = new Category();
 
 // Obtener categorías
 $categories = $category->getAllCategories();
+$showAddModal = isset($_GET['action']) && $_GET['action'] === 'add';
+$editCategoryId = isset($_GET['edit']) ? intval($_GET['edit']) : 0;
 ?>
 
 <!DOCTYPE html>
@@ -314,6 +316,21 @@ $categories = $category->getAllCategories();
                 location.reload();
             }
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if ($showAddModal) {
+                const addModal = new bootstrap.Modal(document.getElementById('addCategoryModal'));
+                addModal.show();
+            }
+            if ($editCategoryId > 0) {
+                // Function editCategory might exist if implemented via AJAX
+                if (typeof editCategory === 'function') {
+                    editCategory($editCategoryId);
+                }
+                const editModal = new bootstrap.Modal(document.getElementById('editCategoryModal'));
+                editModal.show();
+            }
+        });
     </script>
 </body>
-</html> 
+</html>

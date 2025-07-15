@@ -14,6 +14,8 @@ $category = new Category();
 // Obtener productos
 $products = $product->getAllProducts();
 $categories = $category->getAllCategories();
+$showAddModal = isset($_GET['action']) && $_GET['action'] === 'add';
+$editProductId = isset($_GET['edit']) ? intval($_GET['edit']) : 0;
 ?>
 
 <!DOCTYPE html>
@@ -573,6 +575,18 @@ $categories = $category->getAllCategories();
                 }
             });
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if ($showAddModal) {
+                const addModal = new bootstrap.Modal(document.getElementById('addProductModal'));
+                addModal.show();
+            }
+            if ($editProductId > 0) {
+                editProduct($editProductId);
+                const editModal = new bootstrap.Modal(document.getElementById('editProductModal'));
+                editModal.show();
+            }
+        });
     </script>
 </body>
-</html> 
+</html>
