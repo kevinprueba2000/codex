@@ -82,6 +82,12 @@ $settings = [
                         Mensajes
                     </a>
                 </li>
+                <li>
+                    <a href="team.php">
+                        <i class="fas fa-users-cog"></i>
+                        Equipo
+                    </a>
+                </li>
                 <li class="active">
                     <a href="settings.php">
                         <i class="fas fa-cog"></i>

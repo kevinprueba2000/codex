@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Carlos Mendoza",
+    "role": "CEO & Fundador",
+    "description": "Visionario tecnológico con más de 10 años de experiencia en desarrollo de software y emprendimiento.",
+    "image": "assets/images/placeholder.jpg"
+  },
+  {
+    "name": "Ana Rodríguez",
+    "role": "CTO & Desarrolladora",
+    "description": "Experta en tecnologías emergentes y desarrollo de aplicaciones web y móviles innovadoras.",
+    "image": "assets/images/placeholder.jpg"
+  },
+  {
+    "name": "Luis Torres",
+    "role": "CMO & Especialista en Productos",
+    "description": "Experto en marketing digital y productos naturales con amplia experiencia en el mercado latinoamericano.",
+    "image": "assets/images/placeholder.jpg"
+  }
+]
