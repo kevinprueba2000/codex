@@ -8,11 +8,11 @@ if (!isLoggedIn() || !isAdmin()) {
     redirect(SITE_URL . '/auth/login.php');
 }
 
-$order = new Order();
+$orderModel = new Order();
 $user = new User();
 
 // Obtener pedidos
-$orders = $order->getAllOrders();
+$orders = $orderModel->getAllOrders();
 ?>
 
 <!DOCTYPE html>
@@ -239,8 +239,8 @@ $orders = $order->getAllOrders();
                                                 <small class="text-muted"><?php echo $userData ? htmlspecialchars($userData['email']) : ''; ?></small>
                                             </td>
                                             <td>
-                                                <?php 
-                                                $items = $order->getOrderItems($order['id']);
+                                                <?php
+                                                $items = $orderModel->getOrderItems($order['id']);
                                                 $itemCount = is_array($items) ? count($items) : 0;
                                                 echo $itemCount . ' producto' . ($itemCount != 1 ? 's' : '');
                                                 ?>

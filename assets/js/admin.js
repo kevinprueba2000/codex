@@ -365,7 +365,7 @@ function ajaxRequest(url, method = 'GET', data = null) {
 }
 
 // File upload handling
-function handleFileUpload(input, previewId) {
+function previewFile(input, previewId) {
     const file = input.files[0];
     if (file) {
         const reader = new FileReader();

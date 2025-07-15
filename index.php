@@ -313,7 +313,7 @@ $categories = $category->getAllCategories();
                                         <i class="fas fa-heart"></i>
                                     </button>
                                 </div>
-                                <?php if ($product['discount_percentage'] > 0): ?>
+                                <?php if (isset($product['discount_percentage']) && $product['discount_percentage'] > 0): ?>
                                     <span class="badge bg-danger position-absolute top-0 start-0 m-2">
                                         -<?php echo $product['discount_percentage']; ?>%
                                     </span>
@@ -324,7 +324,7 @@ $categories = $category->getAllCategories();
                                 <p class="card-text"><?php echo substr($product['description'], 0, 100); ?>...</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="price">
-                                        <?php if ($product['discount_percentage'] > 0): ?>
+                                        <?php if (isset($product['discount_percentage']) && $product['discount_percentage'] > 0): ?>
                                             <span class="text-decoration-line-through text-muted me-2">
                                                 $<?php echo number_format($product['price'], 0, ',', '.'); ?>
                                             </span>
@@ -345,7 +345,7 @@ $categories = $category->getAllCategories();
                                     <i class="fas fa-cart-plus me-2"></i>
                                     Agregar al Carrito
                                 </button>
-                                <a href="https://wa.me/593983015307?text=Hola%2C%20quiero%20comprar%20el%20producto:%20<?php echo urlencode($product['name']); ?>%20-%20$<?php echo number_format($product['discount_percentage'] > 0 ? $product['price'] * (1 - $product['discount_percentage'] / 100) : $product['price'], 0, ',', '.'); ?>%20-%20AlquimiaTechnologic" 
+                                <a href="https://wa.me/593983015307?text=Hola%2C%20quiero%20comprar%20el%20producto:%20<?php echo urlencode($product['name']); ?>%20-%20$<?php echo number_format((isset($product['discount_percentage']) && $product['discount_percentage'] > 0) ? $product['price'] * (1 - $product['discount_percentage'] / 100) : $product['price'], 0, ',', '.'); ?>%20-%20AlquimiaTechnologic"
                                    class="btn btn-success w-100 mt-2 hover-lift" target="_blank">
                                     <i class="fab fa-whatsapp me-2"></i>
                                     Comprar por WhatsApp
