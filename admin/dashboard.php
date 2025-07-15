@@ -282,7 +282,7 @@ $recentProducts = $product->getAllProducts(5);
                                                     </span>
                                                 </td>
                                                 <td>
-                                                    <a href="product-edit.php?id=<?php echo $prod['id']; ?>" class="btn btn-sm btn-outline-primary">
+                                                <a href="products.php?edit=<?php echo $prod['id']; ?>" class="btn btn-sm btn-outline-primary">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
                                                 </td>
@@ -303,10 +303,10 @@ $recentProducts = $product->getAllProducts(5);
                             </div>
                             <div class="card-body">
                                 <div class="d-grid gap-2">
-                                    <a href="product-add.php" class="btn btn-primary">
+                                    <a href="products.php?action=add" class="btn btn-primary">
                                         <i class="fas fa-plus me-2"></i>Agregar Producto
                                     </a>
-                                    <a href="category-add.php" class="btn btn-success">
+                                    <a href="categories.php?action=add" class="btn btn-success">
                                         <i class="fas fa-plus me-2"></i>Agregar Categoría
                                     </a>
                                     <a href="messages.php" class="btn btn-info">
