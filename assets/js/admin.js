@@ -227,8 +227,7 @@ function initializeFileUpload() {
                 area.classList.remove('dragover');
                 const files = e.dataTransfer.files;
                 if (files.length > 0) {
-                    input.files = files;
-                    handleFileUpload(input, preview, folder);
+                    handleFileUpload(files, preview, folder);
                 }
             });
 
@@ -240,8 +239,13 @@ function initializeFileUpload() {
     });
 }
 
-function handleFileUpload(input, preview, folder = 'products') {
-    const files = Array.from(input.files);
+function handleFileUpload(source, preview, folder = 'products') {
+    let files = [];
+    if (source instanceof FileList || Array.isArray(source)) {
+        files = Array.from(source);
+    } else if (source && source.files) {
+        files = Array.from(source.files);
+    }
     if (files.length === 0) return;
     
     // Clear previous preview
