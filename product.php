@@ -17,6 +17,17 @@ if (!$productData) {
     exit;
 }
 
+// Procesar imágenes del producto
+$productImages = [];
+if (!empty($productData['images'])) {
+    $productImages = json_decode($productData['images'], true);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        $productImages = [];
+    }
+}
+
+$mainImage = $productImages[0] ?? 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+
 // Obtener categoría del producto
 $productCategory = $category->getCategoryById($productData['category_id']);
 
@@ -146,17 +157,23 @@ $relatedProducts = $product->getRelatedProducts($id, $productData['category_id']
                 <div class="col-lg-6 mb-4" data-aos="fade-right">
                     <div class="product-gallery">
                         <div class="main-image mb-3">
-                            <img src="<?php echo $productData['image'] ?: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; ?>" 
-                                 alt="<?php echo htmlspecialchars($productData['name']); ?>" 
+                            <img src="<?php echo htmlspecialchars($mainImage); ?>"
+                                 alt="<?php echo htmlspecialchars($productData['name']); ?>"
                                  class="img-fluid rounded-custom shadow-lg" id="mainImage">
                         </div>
                         <div class="thumbnail-images d-flex gap-2">
-                            <img src="<?php echo $productData['image'] ?: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80'; ?>" 
-                                 alt="Thumbnail 1" class="img-thumbnail thumbnail-img active" onclick="changeImage(this)">
-                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
-                                 alt="Thumbnail 2" class="img-thumbnail thumbnail-img" onclick="changeImage(this)">
-                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
-                                 alt="Thumbnail 3" class="img-thumbnail thumbnail-img" onclick="changeImage(this)">
+                            <?php if (!empty($productImages)): ?>
+                                <?php foreach ($productImages as $index => $imgUrl): ?>
+                                    <img src="<?php echo htmlspecialchars($imgUrl); ?>"
+                                         alt="Thumbnail"
+                                         class="img-thumbnail thumbnail-img <?php echo $index === 0 ? 'active' : ''; ?>"
+                                         onclick="changeImage(this)">
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <img src="<?php echo htmlspecialchars($mainImage); ?>"
+                                     alt="Thumbnail" class="img-thumbnail thumbnail-img active"
+                                     onclick="changeImage(this)">
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

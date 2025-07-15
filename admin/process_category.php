@@ -80,6 +80,12 @@ try {
             $images = json_decode($image_json, true);
             if (json_last_error() !== JSON_ERROR_NONE) { $images = []; }
             $image = isset($images[0]) ? $images[0] : null;
+            if ($image === null) {
+                $existing = $category->getCategoryById($categoryId);
+                if ($existing && $existing['image']) {
+                    $image = $existing['image'];
+                }
+            }
             
             if ($categoryId <= 0) {
                 throw new Exception('ID de categoría inválido');
