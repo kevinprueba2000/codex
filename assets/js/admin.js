@@ -206,6 +206,7 @@ function initializeFileUpload() {
     uploadAreas.forEach(area => {
         const input = area.querySelector('input[type="file"]');
         const preview = area.parentElement.querySelector('[id$="ImagePreview"]');
+        const folder = area.getAttribute('data-folder') || 'products';
         
         if (input && preview) {
             // Click to upload
@@ -227,19 +228,19 @@ function initializeFileUpload() {
                 const files = e.dataTransfer.files;
                 if (files.length > 0) {
                     input.files = files;
-                    handleFileUpload(input, preview);
+                    handleFileUpload(input, preview, folder);
                 }
             });
-            
+
             // File selection
             input.addEventListener('change', () => {
-                handleFileUpload(input, preview);
+                handleFileUpload(input, preview, folder);
             });
         }
     });
 }
 
-function handleFileUpload(input, preview) {
+function handleFileUpload(input, preview, folder = 'products') {
     const files = Array.from(input.files);
     if (files.length === 0) return;
     
@@ -252,6 +253,7 @@ function handleFileUpload(input, preview) {
         formData.append('images[]', file);
     });
     formData.append('csrf_token', csrfToken);
+    formData.append('folder', folder);
     
     // Show upload progress
     const progressBar = document.createElement('div');
@@ -280,6 +282,13 @@ function handleFileUpload(input, preview) {
             const hiddenInput = preview.parentElement.querySelector('[id$="ImagesJson"]');
             if (hiddenInput) {
                 hiddenInput.value = JSON.stringify(imagesJson);
+                if (hiddenInput.id === 'logoImagesJson') {
+                    const urlInput = document.getElementById('logoUrl');
+                    if (urlInput) urlInput.value = imagesJson[0] || '';
+                } else if (hiddenInput.id === 'faviconImagesJson') {
+                    const urlInput = document.getElementById('faviconUrl');
+                    if (urlInput) urlInput.value = imagesJson[0] || '';
+                }
             }
             
             showNotification('Imágenes subidas correctamente', 'success');

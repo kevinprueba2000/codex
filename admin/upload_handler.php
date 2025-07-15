@@ -21,7 +21,8 @@ if (!isset($_POST['csrf_token']) || !verifyCSRFToken($_POST['csrf_token'])) {
 }
 
 // Configuración de carga
-$uploadDir = '../assets/images/products/';
+$folder = preg_replace('/[^a-zA-Z0-9_-]/', '', $_POST['folder'] ?? 'products');
+$uploadDir = __DIR__ . '/../assets/images/' . $folder . '/';
 $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 $maxFileSize = 5 * 1024 * 1024; // 5MB
 $maxFiles = 5;
@@ -166,15 +167,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['images'])) {
                 $resizedPath = $uploadDir . 'thumb_' . $fileName;
                 if (resizeImage($filePath, $resizedPath, 300, 300)) {
                     $uploadedFiles[] = [
-                        'original' => 'assets/images/products/' . $fileName,
-                        'thumbnail' => 'assets/images/products/thumb_' . $fileName,
+                        'original' => 'assets/images/' . $folder . '/' . $fileName,
+                        'thumbnail' => 'assets/images/' . $folder . '/thumb_' . $fileName,
                         'name' => $originalName
                     ];
                 } else {
                     // Si no se puede redimensionar, usar la original
                     $uploadedFiles[] = [
-                        'original' => 'assets/images/products/' . $fileName,
-                        'thumbnail' => 'assets/images/products/' . $fileName,
+                        'original' => 'assets/images/' . $folder . '/' . $fileName,
+                        'thumbnail' => 'assets/images/' . $folder . '/' . $fileName,
                         'name' => $originalName
                     ];
                 }

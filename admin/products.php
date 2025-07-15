@@ -276,7 +276,7 @@ $editProductId = isset($_GET['edit']) ? intval($_GET['edit']) : 0;
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Imágenes del Producto</label>
-                                    <div class="upload-area" id="uploadArea">
+                                    <div class="upload-area" id="uploadArea" data-folder="products">
                                         <div class="upload-placeholder">
                                             <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
                                             <p class="text-muted">Arrastra imágenes aquí o haz clic para seleccionar</p>
@@ -353,7 +353,7 @@ $editProductId = isset($_GET['edit']) ? intval($_GET['edit']) : 0;
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Imágenes del Producto</label>
-                                    <div class="upload-area" id="editUploadArea">
+                                    <div class="upload-area" id="editUploadArea" data-folder="products">
                                         <div class="upload-placeholder">
                                             <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
                                             <p class="text-muted">Arrastra imágenes aquí o haz clic para seleccionar</p>
