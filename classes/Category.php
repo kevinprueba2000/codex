@@ -50,13 +50,17 @@ class Category {
         try {
             $sql = "INSERT INTO categories (name, description, image, slug) VALUES (?, ?, ?, ?)";
             $stmt = $this->db->prepare($sql);
-            
-            return $stmt->execute([
+
+            if ($stmt->execute([
                 $data['name'],
                 $data['description'] ?? null,
                 $data['image'] ?? null,
                 $data['slug']
-            ]);
+            ])) {
+                return $this->db->lastInsertId();
+            }
+
+            return false;
         } catch(PDOException $e) {
             return false;
         }

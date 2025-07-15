@@ -34,11 +34,17 @@ try {
             $featured = isset($_POST['featured']) ? (int)$_POST['featured'] : 0;
             $discount_percentage = (float)($_POST['discount_percentage'] ?? 0);
             $images_json = $_POST['images_json'] ?? '[]';
-            
+
             // Validar JSON de imágenes
             $images = json_decode($images_json, true);
             if (json_last_error() !== JSON_ERROR_NONE) {
                 $images = [];
+            }
+            if (empty($images)) {
+                $existingProd = $product->getProductById($productId);
+                if ($existingProd && !empty($existingProd['images'])) {
+                    $images = json_decode($existingProd['images'], true) ?: [];
+                }
             }
             
             // Validaciones
