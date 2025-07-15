@@ -14,7 +14,7 @@ $settings = [
     'contact_phone' => '+593 983015307',
     'whatsapp_number' => '+593 983015307',
     'address' => 'Ecuador',
-    'google_maps_embed' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5533.426740605852!2d-78.59865183764917!3d-1.3011012547784577!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d3833075ab6891%3A0xc5bed5e18459cf30!2sALQUIMIA%20ESENCIAL!5e0!3m2!1ses!2sec!4v1752461988725!5m2!1ses!2sec',
+    'google_maps_embed' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.7964691869!2d-78.60053978945571!3d-1.2967735986854487!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d3833075ab6891%3A0xc5bed5e18459cf30!2sALQUIMIA%20ESENCIAL!5e0!3m2!1ses!2snl!4v1752552300301!5m2!1ses!2snl',
     'facebook_url' => 'https://facebook.com/alquimiatechnologic',
     'instagram_url' => 'https://instagram.com/alquimiatechnologic',
     'whatsapp_url' => 'https://wa.me/593983015307',

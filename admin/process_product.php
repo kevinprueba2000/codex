@@ -66,7 +66,13 @@ try {
             if (!$category->getCategoryById($category_id)) {
                 throw new Exception('Categoría no válida');
             }
-            
+
+            // Obtener producto existente para conservar el SKU
+            $existing = $product->getProductById($productId);
+            if (!$existing) {
+                throw new Exception('Producto no encontrado');
+            }
+
             $productData = [
                 'name' => $name,
                 'description' => $description,
@@ -150,7 +156,9 @@ try {
                 'is_featured' => $featured,
                 'discount_price' => $discount_percentage > 0 ? $price * (1 - $discount_percentage / 100) : null,
                 'images' => json_encode($images),
-                'slug' => generateSlug($name)
+                'slug' => generateSlug($name),
+                // Conservar el SKU actual
+                'sku' => $existing['sku']
             ];
             
             $result = $product->updateProduct($productId, $productData);
