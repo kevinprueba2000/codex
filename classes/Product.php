@@ -312,9 +312,12 @@ class Product {
 
         $slug = is_array($product) ? ($product['slug'] ?? '') : '';
         if ($slug) {
-            $path = 'assets/images/products/' . $slug . '.jpg';
-            if (file_exists(__DIR__ . '/../' . $path)) {
-                return $path;
+            $extensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+            foreach ($extensions as $ext) {
+                $path = "assets/images/products/{$slug}.{$ext}";
+                if (file_exists(__DIR__ . '/../' . $path)) {
+                    return $path;
+                }
             }
         }
 
