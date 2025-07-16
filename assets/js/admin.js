@@ -248,8 +248,6 @@ function handleFileUpload(source, preview, folder = 'products') {
     }
     if (files.length === 0) return;
     
-    // Clear previous preview
-    preview.innerHTML = '';
     
     // Create FormData for upload
     const formData = new FormData();
@@ -281,17 +279,21 @@ function handleFileUpload(source, preview, folder = 'products') {
                 preview.appendChild(item);
             });
             
-            // Update hidden input with JSON data
-            const imagesJson = data.files.map(file => file.original);
+            // Update hidden input with all images in preview
+            updateImagesJson();
             const hiddenInput = preview.parentElement.querySelector('[id$="ImagesJson"]');
             if (hiddenInput) {
-                hiddenInput.value = JSON.stringify(imagesJson);
-                if (hiddenInput.id === 'logoImagesJson') {
-                    const urlInput = document.getElementById('logoUrl');
-                    if (urlInput) urlInput.value = imagesJson[0] || '';
-                } else if (hiddenInput.id === 'faviconImagesJson') {
-                    const urlInput = document.getElementById('faviconUrl');
-                    if (urlInput) urlInput.value = imagesJson[0] || '';
+                try {
+                    const images = JSON.parse(hiddenInput.value || '[]');
+                    if (hiddenInput.id === 'logoImagesJson') {
+                        const urlInput = document.getElementById('logoUrl');
+                        if (urlInput) urlInput.value = images[0] || '';
+                    } else if (hiddenInput.id === 'faviconImagesJson') {
+                        const urlInput = document.getElementById('faviconUrl');
+                        if (urlInput) urlInput.value = images[0] || '';
+                    }
+                } catch (e) {
+                    console.error('JSON parse error:', e);
                 }
             }
             
@@ -338,6 +340,13 @@ function updateImagesJson() {
         const hiddenInput = preview.parentElement.querySelector('[id$="ImagesJson"]');
         if (hiddenInput) {
             hiddenInput.value = JSON.stringify(images);
+            if (hiddenInput.id === 'logoImagesJson') {
+                const urlInput = document.getElementById('logoUrl');
+                if (urlInput) urlInput.value = images[0] || '';
+            } else if (hiddenInput.id === 'faviconImagesJson') {
+                const urlInput = document.getElementById('faviconUrl');
+                if (urlInput) urlInput.value = images[0] || '';
+            }
         }
     });
 }
