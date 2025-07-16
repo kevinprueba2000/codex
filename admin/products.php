@@ -428,9 +428,10 @@ $editProductId = isset($_GET['edit']) ? intval($_GET['edit']) : 0;
                             images.forEach(imageUrl => {
                                 const item = document.createElement('div');
                                 item.className = 'image-preview-item';
-                                
+
                                 const img = document.createElement('img');
-                                img.src = imageUrl;
+                                img.src = imageUrl.startsWith('http') ? imageUrl : '../' + imageUrl.replace(/^\/+/, '');
+                                img.dataset.original = imageUrl;
                                 img.alt = 'Product image';
                                 
                                 const removeBtn = document.createElement('button');
