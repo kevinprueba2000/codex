@@ -40,12 +40,6 @@ try {
             if (json_last_error() !== JSON_ERROR_NONE) {
                 $images = [];
             }
-            if (empty($images)) {
-                $existingProd = $product->getProductById($productId);
-                if ($existingProd && !empty($existingProd['images'])) {
-                    $images = json_decode($existingProd['images'], true) ?: [];
-                }
-            }
             
             // Validaciones
             if (empty($name) || empty($description)) {
