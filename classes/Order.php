@@ -114,7 +114,11 @@ class Order {
     public function getOrderItems($orderId) {
         try {
             $stmt = $this->pdo->prepare("
-                SELECT oi.*, p.name as product_name, p.image as product_image
+                SELECT
+                    oi.*,
+                    p.name as product_name,
+                    p.images as product_images,
+                    p.slug as product_slug
                 FROM order_items oi
                 LEFT JOIN products p ON oi.product_id = p.id
                 WHERE oi.order_id = ?

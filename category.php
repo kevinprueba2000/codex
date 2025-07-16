@@ -20,6 +20,10 @@ if (!$currentCategory) {
 }
 
 $products = $product->getProductsByCategory($currentCategory['id'], $limit, $offset);
+foreach ($products as &$p) {
+    $p['image'] = Product::getImagePath($p);
+}
+unset($p);
 $totalProducts = $product->getProductCountByCategory($currentCategory['id']);
 $totalPages = ceil($totalProducts / $limit);
 ?>

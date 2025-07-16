@@ -22,6 +22,11 @@ if ($search) {
     $products = $product->getAllProducts($limit, $offset);
 }
 
+foreach ($products as &$p) {
+    $p['image'] = Product::getImagePath($p);
+}
+unset($p);
+
 $categories = $category->getAllCategories();
 ?>
 

@@ -8,6 +8,10 @@ $category = new Category();
 
 // Obtener productos destacados
 $featuredProducts = $product->getFeaturedProducts(8);
+foreach ($featuredProducts as &$fp) {
+    $fp['image'] = Product::getImagePath($fp);
+}
+unset($fp);
 $categories = $category->getAllCategories();
 ?>
 

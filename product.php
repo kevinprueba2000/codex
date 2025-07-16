@@ -33,6 +33,10 @@ $productCategory = $category->getCategoryById($productData['category_id']);
 
 // Obtener productos relacionados
 $relatedProducts = $product->getRelatedProducts($id, $productData['category_id'], 4);
+foreach ($relatedProducts as &$rp) {
+    $rp['image'] = Product::getImagePath($rp);
+}
+unset($rp);
 ?>
 
 <!DOCTYPE html>

@@ -283,7 +283,7 @@ class Product {
     // Obtener cantidad de productos por categoría
     public function getProductCountByCategory($categoryId) {
         try {
-            $sql = "SELECT COUNT(*) as total FROM products 
+            $sql = "SELECT COUNT(*) as total FROM products
                     WHERE category_id = ? AND status = 'active'";
             
             $stmt = $this->db->prepare($sql);
@@ -294,6 +294,31 @@ class Product {
         } catch(PDOException $e) {
             return 0;
         }
+    }
+
+    /**
+     * Obtener la imagen principal de un producto.
+     * Devuelve la primera imagen del campo JSON o una imagen basada en el slug.
+     */
+    public static function getImagePath($product) {
+        $imagesJson = is_array($product) ? ($product['images'] ?? '') : $product;
+
+        if ($imagesJson) {
+            $images = json_decode($imagesJson, true);
+            if (json_last_error() === JSON_ERROR_NONE && !empty($images[0])) {
+                return $images[0];
+            }
+        }
+
+        $slug = is_array($product) ? ($product['slug'] ?? '') : '';
+        if ($slug) {
+            $path = 'assets/images/products/' . $slug . '.jpg';
+            if (file_exists(__DIR__ . '/../' . $path)) {
+                return $path;
+            }
+        }
+
+        return 'assets/images/placeholder.jpg';
     }
 }
 ?> 

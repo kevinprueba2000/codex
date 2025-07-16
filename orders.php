@@ -2,6 +2,7 @@
 require_once 'config/config.php';
 require_once 'classes/User.php';
 require_once 'classes/Order.php';
+require_once 'classes/Product.php';
 
 // Verificar si el usuario está logueado
 if (!isLoggedIn()) {
@@ -24,6 +25,13 @@ if ($orderId) {
         exit;
     }
     $orderItems = $order->getOrderItems($orderId);
+    foreach ($orderItems as &$item) {
+        $item['image'] = Product::getImagePath([
+            'images' => $item['product_images'] ?? '',
+            'slug'   => $item['product_slug'] ?? ''
+        ]);
+    }
+    unset($item);
 } else {
     $userOrders = $order->getOrdersByUserId($_SESSION['user_id']);
 }
