@@ -1,10 +1,18 @@
 <?php
 class Database {
-    private $host = 'localhost';
-    private $dbname = 'alquimia_technologic';
-    private $username = 'root';
-    private $password = '';
+    private $host;
+    private $dbname;
+    private $username;
+    private $password;
     private $pdo;
+
+    public function __construct() {
+        // Utiliza las constantes definidas en config.php para evitar valores duplicados
+        $this->host = defined('DB_HOST') ? DB_HOST : 'localhost';
+        $this->dbname = defined('DB_NAME') ? DB_NAME : '';
+        $this->username = defined('DB_USER') ? DB_USER : 'root';
+        $this->password = defined('DB_PASS') ? DB_PASS : '';
+    }
     
     public function connect() {
         try {
